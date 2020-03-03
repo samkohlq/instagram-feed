@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import firebase from "firebase";
+import "firebase/storage";
+import React, { Component } from "react";
+import { Button, Container, Row } from "react-bootstrap";
+import config from "./firebase-config";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+firebase.initializeApp(config);
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      image: null
+    };
+  }
+
+  handleChange = event => {
+    if (event.target.files[0]) {
+      this.setState({
+        image: event.target.files[0]
+      });
+    }
+  };
+
+  handleUpload = () => {
+    var storageRef = firebase.storage().ref();
+    const { image } = this.state;
+    storageRef.child(`images/${image.name}`).put(image);
+  };
+
+  render() {
+    console.log(this.state);
+    return (
+      <Container>
+        <Row className="mt-5">
+          <input type="file" onChange={this.handleChange} />
+          <Button onClick={this.handleUpload}>Upload image</Button>
+        </Row>
+      </Container>
+    );
+  }
 }
 
 export default App;
