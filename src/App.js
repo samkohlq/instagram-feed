@@ -23,6 +23,7 @@ class App extends Component {
   };
 
   handleUpload = () => {
+    console.log(this.state);
     var storageRef = firebase.storage().ref();
     const { image } = this.state;
     storageRef.child(`images/${image.name}`).put(image);
