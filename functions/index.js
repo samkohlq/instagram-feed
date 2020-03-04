@@ -8,8 +8,12 @@ app.use(cors({ origin: true }));
 admin.initializeApp(functions.config().firebase);
 let db = admin.firestore();
 
-app.post("/hello", (req, res) => {
-  let docRef = db.collection("users").doc(req.body.user);
+app.post("/user1/addpost", (req, res) => {
+  let docRef = db
+    .collection("users")
+    .doc(req.body.user)
+    .collection("posts")
+    .doc(req.body.image);
   docRef.set({
     image: req.body.image
   });

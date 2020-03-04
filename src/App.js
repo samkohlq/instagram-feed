@@ -27,18 +27,18 @@ class App extends Component {
     var storageRef = firebase.storage().ref();
     const { image } = this.state;
     storageRef
-      .child(`images/${image.name}`)
+      .child(`images/user1/${image.name}`)
       .put(image)
       .then(
         fetch(
-          "https://us-central1-instagram-feed-1a4be.cloudfunctions.net/widgets/hello",
+          "https://us-central1-instagram-feed-1a4be.cloudfunctions.net/widgets/user1/addpost",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
             },
             body: JSON.stringify({
-              user: "testuser3",
+              user: "user1",
               image: image.name
             })
           }
