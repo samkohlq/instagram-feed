@@ -26,11 +26,32 @@ class App extends Component {
     console.log(this.state);
     var storageRef = firebase.storage().ref();
     const { image } = this.state;
-    storageRef.child(`images/${image.name}`).put(image);
+    storageRef
+      .child(`images/${image.name}`)
+      .put(image)
+      .then(
+        fetch(
+          "https://us-central1-instagram-feed-1a4be.cloudfunctions.net/widgets/hello",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              user: "testuser3",
+              image: image.name
+            })
+          }
+        )
+          // only runs when promise returned by fetch is successful
+          // pulls out body of json and converts it to json
+          .then(response => {
+            return response.json();
+          })
+      );
   };
 
   render() {
-    console.log(this.state);
     return (
       <Container>
         <Row className="mt-5">
