@@ -43,11 +43,6 @@ class App extends Component {
             })
           }
         )
-          // only runs when promise returned by fetch is successful
-          // pulls out body of json and converts it to json
-          .then(response => {
-            return response.json();
-          })
       );
   };
 
