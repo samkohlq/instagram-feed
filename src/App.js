@@ -10,7 +10,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      image: null
+      image: null,
+      imageUrl: null
     };
   }
 
@@ -22,28 +23,34 @@ class App extends Component {
     }
   };
 
-  handleUpload = () => {
-    console.log(this.state);
+  handleClick = () => {
     var storageRef = firebase.storage().ref();
     const { image } = this.state;
     storageRef
       .child(`images/user1/${image.name}`)
       .put(image)
-      .then(
+      .then(async () => {
+        const imageUrl = await storageRef
+          .child(`images/user1/${image.name}`)
+          .getDownloadURL();
         fetch(
-          "https://us-central1-instagram-feed-1a4be.cloudfunctions.net/widgets/user1/addpost",
+          "https://us-central1-instagram-feed-1a4be.cloudfunctions.net/widgets/user1/addPost",
+          // "http://localhost:5001/instagram-feed-1a4be/us-central1/widgets/user1/addPost",
           {
             method: "POST",
             headers: {
+              // "Content-Type": "application/x-www-form-urlencoded",
+              // "Access-Control-Allow-Origin": "*"
               "Content-Type": "application/json"
             },
             body: JSON.stringify({
-              user: "user1",
-              image: image.name
+              userId: "user1",
+              image: image.name,
+              imageUrl
             })
           }
-        )
-      );
+        );
+      });
   };
 
   render() {
@@ -51,8 +58,9 @@ class App extends Component {
       <Container>
         <Row className="mt-5">
           <input type="file" onChange={this.handleChange} />
-          <Button onClick={this.handleUpload}>Upload image</Button>
+          <Button onClick={this.handleClick}>Upload image</Button>
         </Row>
+        <Row>{/* <PostsList /> */}</Row>
       </Container>
     );
   }
