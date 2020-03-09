@@ -26,24 +26,23 @@ class AddPost extends Component {
   handleClick = () => {
     var storageRef = firebase.storage().ref();
     const { image } = this.state;
-    console.log(this);
     storageRef
-      .child(`images/user1/${image.name}`)
+      .child(`images/${this.props.signedInUserId}/${image.name}`)
       .put(image)
       .then(async () => {
         const imageUrl = await storageRef
-          .child(`images/user1/${image.name}`)
+          .child(`images/${this.props.signedInUserId}/${image.name}`)
           .getDownloadURL();
         fetch(
-          "https://us-central1-instagram-feed-1a4be.cloudfunctions.net/widgets/user1/addPost",
-          // "http://localhost:5001/instagram-feed-1a4be/us-central1/widgets/user1/addPost",
+          "https://us-central1-instagram-feed-1a4be.cloudfunctions.net/widgets/addPost",
+          // "http://localhost:5001/instagram-feed-1a4be/us-central1/widgets/addPost",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
             },
             body: JSON.stringify({
-              userId: "user1",
+              userId: this.props.signedInUserId,
               image: image.name,
               imageUrl
             })

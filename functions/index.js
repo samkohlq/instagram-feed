@@ -9,7 +9,7 @@ admin.initializeApp(functions.config().firebase);
 let db = admin.firestore();
 app.use(corsHandler);
 
-app.post("/user1/addPost", (req, res) => {
+app.post("/addPost", (req, res) => {
   const docRef = db
     .collection("users")
     .doc(req.body.userId)

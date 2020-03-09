@@ -6,10 +6,7 @@ class PostsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: [
-        // "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_relaxing_on_patio_other/1800x1200_cat_relaxing_on_patio_other.jpg?resize=750px:*",
-        // "https://images.theconversation.com/files/301743/original/file-20191114-26207-lray93.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=926&fit=clip"
-      ]
+      posts: []
     };
   }
 
