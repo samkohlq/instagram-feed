@@ -18,13 +18,10 @@ class PostsList extends React.Component {
       "https://us-central1-instagram-feed-1a4be.cloudfunctions.net/widgets/user1/retrievePosts",
       // "http://localhost:5001/instagram-feed-1a4be/us-central1/widgets/user1/retrievePosts",
       {
-        method: "POST",
+        method: "GET",
         headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
           userId: "user1"
-        })
+        }
       }
     )
       .then(response => {
