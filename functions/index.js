@@ -17,7 +17,26 @@ app.post("/user1/addPost", (req, res) => {
   docRef.add({
     imageUrl: req.body.imageUrl
   });
-  res.send(200);
+  res.sendStatus(200);
+});
+
+app.post("/user1/retrievePosts", (req, res) => {
+  const postsRef = db
+    .collection("users")
+    .doc(req.body.userId)
+    .collection("posts");
+  postsRef
+    .get()
+    .then(snapshot => {
+      let imageUrls = [];
+      snapshot.forEach(doc => {
+        imageUrls.push(doc.data().imageUrl);
+      });
+      return res.send(imageUrls);
+    })
+    .catch(err => {
+      console.log("Error getting image urls", err);
+    });
 });
 
 exports.widgets = functions.https.onRequest(app);

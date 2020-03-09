@@ -1,18 +1,18 @@
 import firebase from "firebase";
 import "firebase/storage";
 import React, { Component } from "react";
-import { Button, Container, Row } from "react-bootstrap";
-import config from "./firebase-config";
+import { Button, Row } from "react-bootstrap";
 
-firebase.initializeApp(config);
-
-class App extends Component {
+class AddPost extends Component {
   constructor(props) {
     super(props);
     this.state = {
       image: null,
       imageUrl: null
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange = event => {
@@ -26,6 +26,7 @@ class App extends Component {
   handleClick = () => {
     var storageRef = firebase.storage().ref();
     const { image } = this.state;
+    console.log(this);
     storageRef
       .child(`images/user1/${image.name}`)
       .put(image)
@@ -39,8 +40,6 @@ class App extends Component {
           {
             method: "POST",
             headers: {
-              // "Content-Type": "application/x-www-form-urlencoded",
-              // "Access-Control-Allow-Origin": "*"
               "Content-Type": "application/json"
             },
             body: JSON.stringify({
@@ -55,15 +54,12 @@ class App extends Component {
 
   render() {
     return (
-      <Container>
-        <Row className="mt-5">
-          <input type="file" onChange={this.handleChange} />
-          <Button onClick={this.handleClick}>Upload image</Button>
-        </Row>
-        <Row>{/* <PostsList /> */}</Row>
-      </Container>
+      <Row className="mt-5">
+        <input type="file" onChange={this.handleChange} />
+        <Button onClick={this.handleClick}>Upload image</Button>
+      </Row>
     );
   }
 }
 
-export default App;
+export default AddPost;
