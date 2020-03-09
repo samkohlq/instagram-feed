@@ -20,10 +20,11 @@ app.post("/addPost", (req, res) => {
   res.sendStatus(200);
 });
 
-app.get("/user1/retrievePosts", (req, res) => {
+app.get("/retrievePosts/:userId", (req, res) => {
+  console.log(req.params.userId);
   const postsRef = db
     .collection("users")
-    .doc(req.headers.userid)
+    .doc(req.params.userId)
     .collection("posts");
   postsRef
     .get()

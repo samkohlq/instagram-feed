@@ -23,6 +23,7 @@ class AddPost extends Component {
     }
   };
 
+  // TODO: use user.uid instead of passing id in as prop
   handleClick = () => {
     var storageRef = firebase.storage().ref();
     const { image } = this.state;

@@ -20,25 +20,28 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.signedInUserName) {
-      var uiConfig = {
-        callbacks: {
-          signInSuccessWithAuthResult: authResult => {
-            this.setState({
-              ...this.state,
-              signedInUserName: authResult.user.displayName,
-              signedInUserId: authResult.user.uid
-            });
-          }
-        },
-        signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID]
-      };
+    var uiConfig = {
+      callbacks: {
+        signInSuccessWithAuthResult: authResult => {
+          this.setState({
+            ...this.state,
+            signedInUserName: authResult.user.displayName,
+            signedInUserId: authResult.user.uid
+          });
+        }
+      },
+      signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID]
+    };
 
-      ui.start("#firebaseui-auth-container", uiConfig);
-    }
+    ui.start("#firebaseui-auth-container", uiConfig);
   }
 
   render() {
+    const posts = firebase.auth().currentUser ? (
+      <Row>
+        <PostsList />
+      </Row>
+    ) : null;
     return (
       <Container>
         <div id="firebaseui-auth-container"></div>
@@ -48,12 +51,7 @@ class App extends React.Component {
             signedInUserId={this.state.signedInUserId}
           />
         </Row>
-        <Row>
-          <PostsList
-            signedInUserName={this.state.signedInUserName}
-            signedInUserId={this.state.signedInUserId}
-          />
-        </Row>
+        {posts}
       </Container>
     );
   }
