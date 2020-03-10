@@ -9,35 +9,36 @@ admin.initializeApp(functions.config().firebase);
 let db = admin.firestore();
 app.use(corsHandler);
 
-app.post("/addPost", (req, res) => {
+app.post("/addPost/:userId", async (req, res) => {
+  const user = await admin.auth().verifyIdToken(req.headers.authorization);
+  if (!user) {
+    return res.send(403);
+  }
   const docRef = db
     .collection("users")
-    .doc(req.body.userId)
+    .doc(req.params.userId)
     .collection("posts");
-  docRef.add({
+  await docRef.add({
     imageUrl: req.body.imageUrl
   });
-  res.sendStatus(200);
+  return res.sendStatus(200);
 });
 
-app.get("/retrievePosts/:userId", (req, res) => {
-  console.log(req.params.userId);
+app.get("/retrievePosts/:userId", async (req, res) => {
+  const user = await admin.auth().verifyIdToken(req.headers.authorization);
+  if (!user) {
+    return res.send(403);
+  }
   const postsRef = db
     .collection("users")
     .doc(req.params.userId)
     .collection("posts");
-  postsRef
-    .get()
-    .then(snapshot => {
-      let imageUrls = [];
-      snapshot.forEach(doc => {
-        imageUrls.push(doc.data().imageUrl);
-      });
-      return res.send(imageUrls);
-    })
-    .catch(err => {
-      console.log("Error getting image urls", err);
-    });
+  const snapshot = await postsRef.get();
+  let imageUrls = [];
+  snapshot.forEach(doc => {
+    imageUrls.push(doc.data().imageUrl);
+  });
+  return res.send(imageUrls);
 });
 
 exports.widgets = functions.https.onRequest(app);

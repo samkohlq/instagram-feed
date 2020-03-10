@@ -23,33 +23,39 @@ class AddPost extends Component {
     }
   };
 
-  // TODO: use user.uid instead of passing id in as prop
   handleClick = () => {
     var storageRef = firebase.storage().ref();
     const { image } = this.state;
-    storageRef
-      .child(`images/${this.props.signedInUserId}/${image.name}`)
-      .put(image)
-      .then(async () => {
-        const imageUrl = await storageRef
-          .child(`images/${this.props.signedInUserId}/${image.name}`)
-          .getDownloadURL();
-        fetch(
-          "https://us-central1-instagram-feed-1a4be.cloudfunctions.net/widgets/addPost",
-          // "http://localhost:5001/instagram-feed-1a4be/us-central1/widgets/addPost",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              userId: this.props.signedInUserId,
-              image: image.name,
-              imageUrl
-            })
-          }
-        );
-      });
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        user.getIdToken(true).then(idToken => {
+          storageRef
+            .child(`images/${user.uid}/${image.name}`)
+            .put(image)
+            .then(async () => {
+              const imageUrl = await storageRef
+                .child(`images/${user.uid}/${image.name}`)
+                .getDownloadURL();
+              fetch(
+                `https://us-central1-instagram-feed-1a4be.cloudfunctions.net/widgets/addPost/${user.uid}`,
+                // `http://localhost:5001/instagram-feed-1a4be/us-central1/widgets/addPost/${user.uid}`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: idToken
+                  },
+                  body: JSON.stringify({
+                    userId: user.uid,
+                    image: image.name,
+                    imageUrl
+                  })
+                }
+              );
+            });
+        });
+      }
+    });
   };
 
   render() {
