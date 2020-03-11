@@ -5,9 +5,11 @@ const express = require("express");
 
 const app = express();
 const corsHandler = cors({ origin: true });
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp();
 let db = admin.firestore();
 app.use(corsHandler);
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.post("/addPost/:userId", async (req, res) => {
   const user = await admin.auth().verifyIdToken(req.headers.authorization);
