@@ -46,10 +46,7 @@ class App extends React.Component {
       <Container>
         <div id="firebaseui-auth-container"></div>
         <Row className="mt-5">
-          <AddPost
-            signedInUserName={this.state.signedInUserName}
-            signedInUserId={this.state.signedInUserId}
-          />
+          <AddPost />
         </Row>
         {posts}
       </Container>
