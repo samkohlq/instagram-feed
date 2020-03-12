@@ -1,13 +1,13 @@
+import { Container } from "@material-ui/core";
 import * as firebase from "firebase";
 import "firebase/storage";
 import * as firebaseui from "firebaseui";
 import React from "react";
-import { Container, Row } from "react-bootstrap";
-import config from "../firebase-config";
+import "../firebase-config";
 import AddPost from "./AddPost";
+import "./App.css";
 import PostsList from "./PostsList";
 
-firebase.initializeApp(config);
 const ui = new firebaseui.auth.AuthUI(firebase.auth());
 
 class App extends React.Component {
@@ -37,18 +37,17 @@ class App extends React.Component {
   }
 
   render() {
-    const posts = firebase.auth().currentUser ? (
-      <Row>
+    // only renders user's homepage if a user has signed in
+    const homepage = firebase.auth().currentUser ? (
+      <div>
+        <AddPost />
         <PostsList />
-      </Row>
+      </div>
     ) : null;
     return (
       <Container>
         <div id="firebaseui-auth-container"></div>
-        <Row className="mt-5">
-          <AddPost />
-        </Row>
-        {posts}
+        {homepage}
       </Container>
     );
   }

@@ -3,6 +3,7 @@ import React from "react";
 import { ListGroup } from "react-bootstrap";
 import Post from "./Post";
 
+const db = firebase.firestore();
 class PostsList extends React.Component {
   constructor(props) {
     super(props);
@@ -17,24 +18,22 @@ class PostsList extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       // if a user has logged in
       if (user) {
-        // gets token to prove to backend that request is legitimate
-        user.getIdToken(true).then(idToken => {
-          fetch(
-            `https://us-central1-instagram-feed-1a4be.cloudfunctions.net/widgets/retrievePosts/${user.uid}`,
-            // `http://localhost:5001/instagram-feed-1a4be/us-central1/widgets/retrievePosts/${user.uid}`,
-            {
-              method: "GET",
-              headers: {
-                Authorization: idToken
-              }
-            }
-          )
-            .then(response => {
-              return response.json();
-            })
-            .then(imageUrls => {
-              return this.setState({ posts: imageUrls });
-            });
+        // point to posts collection
+        let collectionRef = db
+          .collection("users")
+          .doc(user.uid)
+          .collection("posts");
+        collectionRef.onSnapshot(collectionSnapshot => {
+          // create an empty array
+          const imageUrls = [];
+          // add each document's imageUrl to array
+          collectionSnapshot.forEach(doc => {
+            imageUrls.push(doc.data().imageUrl);
+          });
+          // set imageUrls array to state
+          this.setState({
+            posts: imageUrls
+          });
         });
       }
     });

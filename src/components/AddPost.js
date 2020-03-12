@@ -1,7 +1,7 @@
+import { Button } from "@material-ui/core";
 import firebase from "firebase";
 import "firebase/storage";
 import React, { Component } from "react";
-import { Button, Row } from "react-bootstrap";
 
 class AddPost extends Component {
   constructor(props) {
@@ -60,10 +60,12 @@ class AddPost extends Component {
 
   render() {
     return (
-      <Row className="mt-5">
+      <div>
         <input type="file" onChange={this.handleChange} />
-        <Button onClick={this.handleClick}>Upload image</Button>
-      </Row>
+        <Button variant="outlined" onClick={this.handleClick}>
+          Upload image
+        </Button>
+      </div>
     );
   }
 }
