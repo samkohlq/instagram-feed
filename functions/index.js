@@ -26,21 +26,4 @@ app.post("/addPost/:userId", async (req, res) => {
   return res.sendStatus(200);
 });
 
-app.get("/retrievePosts/:userId", async (req, res) => {
-  const user = await admin.auth().verifyIdToken(req.headers.authorization);
-  if (!user) {
-    return res.send(403);
-  }
-  const postsRef = db
-    .collection("users")
-    .doc(req.params.userId)
-    .collection("posts");
-  const snapshot = await postsRef.get();
-  let imageUrls = [];
-  snapshot.forEach(doc => {
-    imageUrls.push(doc.data().imageUrl);
-  });
-  return res.send(imageUrls);
-});
-
 exports.widgets = functions.https.onRequest(app);
