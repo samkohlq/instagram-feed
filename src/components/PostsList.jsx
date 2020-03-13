@@ -49,7 +49,7 @@ class PostsList extends React.Component {
           overflow: "hidden"
         }}
       >
-        <GridList cellHeight={400} cols={3}>
+        <GridList style={{ margin: 5 }}>
           {this.state.posts.map((imageUrl, i) => (
             <Post key={i} src={imageUrl} />
           ))}
