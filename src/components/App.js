@@ -1,4 +1,4 @@
-import { Container } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import * as firebase from "firebase";
 import "firebase/storage";
 import * as firebaseui from "firebaseui";
@@ -37,18 +37,26 @@ class App extends React.Component {
   }
 
   render() {
-    // only renders user's homepage if a user has signed in
-    const homepage = firebase.auth().currentUser ? (
+    // only renders user's feed if a user has signed in
+    const feed = firebase.auth().currentUser ? (
       <div>
         <AddPost />
         <PostsList />
       </div>
     ) : null;
     return (
-      <Container>
-        <div id="firebaseui-auth-container"></div>
-        {homepage}
-      </Container>
+      <Grid
+        container
+        spacing={1}
+        direction="column"
+        alignItems="center"
+        justify="center"
+      >
+        <Grid item xs={12}>
+          <div id="firebaseui-auth-container"></div>
+          {feed}
+        </Grid>
+      </Grid>
     );
   }
 }

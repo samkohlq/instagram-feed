@@ -1,6 +1,6 @@
+import { GridList } from "@material-ui/core";
 import * as firebase from "firebase";
 import React from "react";
-import { ListGroup } from "react-bootstrap";
 import Post from "./Post";
 
 const db = firebase.firestore();
@@ -40,15 +40,18 @@ class PostsList extends React.Component {
   }
 
   render() {
-    return (
+    const images = this.state.posts[0] ? (
       <div>
-        <ListGroup variant="flush">
+        <GridList cellHeight={400} cols={3}>
           {this.state.posts.map((imageUrl, i) => (
             <Post key={i} src={imageUrl} />
           ))}
-        </ListGroup>
+        </GridList>
       </div>
+    ) : (
+      <h4 className="my-5">Upload an image to get started!</h4>
     );
+    return <div>{images}</div>;
   }
 }
 
