@@ -4,8 +4,9 @@ import React from "react";
 const Post = props => {
   const { src } = props;
   return (
-    <div className="my-3">
-      <GridListTile style={{ width: "20rem" }}>
+    <div>
+      <GridListTile width="75%">
+        {/* <GridListTile style={{ margin: 5, width: "20rem" }}> */}
         <img src={src} alt={"someimage"} />
       </GridListTile>
     </div>

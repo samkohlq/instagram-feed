@@ -41,7 +41,14 @@ class PostsList extends React.Component {
 
   render() {
     const images = this.state.posts[0] ? (
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-around",
+          overflow: "hidden"
+        }}
+      >
         <GridList cellHeight={400} cols={3}>
           {this.state.posts.map((imageUrl, i) => (
             <Post key={i} src={imageUrl} />
