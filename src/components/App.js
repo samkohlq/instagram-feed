@@ -1,4 +1,3 @@
-import { Grid } from "@material-ui/core";
 import * as firebase from "firebase";
 import "firebase/storage";
 import * as firebaseui from "firebaseui";
@@ -38,25 +37,32 @@ class App extends React.Component {
 
   render() {
     // only renders user's feed if a user has signed in
+    const username = this.state.signedInUserName;
     const feed = firebase.auth().currentUser ? (
       <div>
+        <h1
+          align="center"
+          style={{
+            padding: "10px",
+            color: "#4254bd"
+          }}
+        >
+          Hello, {username}!
+        </h1>
         <AddPost />
         <PostsList />
       </div>
     ) : null;
     return (
-      <Grid
-        container
-        spacing={1}
-        direction="column"
-        alignItems="center"
-        justify="center"
-      >
-        <Grid item xs={12}>
-          <div id="firebaseui-auth-container"></div>
+      <div>
+        <div
+          align="center"
+          id="firebaseui-auth-container"
+          style={{ padding: "100px" }}
+        >
           {feed}
-        </Grid>
-      </Grid>
+        </div>
+      </div>
     );
   }
 }

@@ -1,4 +1,3 @@
-import { GridList } from "@material-ui/core";
 import * as firebase from "firebase";
 import React from "react";
 import Post from "./Post";
@@ -41,22 +40,13 @@ class PostsList extends React.Component {
 
   render() {
     const images = this.state.posts[0] ? (
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-around",
-          overflow: "hidden"
-        }}
-      >
-        <GridList style={{ margin: 5 }}>
-          {this.state.posts.map((imageUrl, i) => (
-            <Post key={i} src={imageUrl} />
-          ))}
-        </GridList>
+      <div>
+        {this.state.posts.map((imageUrl, i) => (
+          <Post key={i} src={imageUrl} />
+        ))}
       </div>
     ) : (
-      <h4 className="my-5">Upload an image to get started!</h4>
+      <h4 style={{ margin: "20px" }}>Upload an image to get started!</h4>
     );
     return <div>{images}</div>;
   }

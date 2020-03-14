@@ -60,9 +60,9 @@ class AddPost extends Component {
 
   render() {
     return (
-      <div>
+      <div align="center" style={{ margin: "20px" }}>
         <input type="file" onChange={this.handleChange} />
-        <Button variant="outlined" onClick={this.handleClick}>
+        <Button variant="contained" color="primary" onClick={this.handleClick}>
           Upload image
         </Button>
       </div>
