@@ -16,6 +16,7 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-firebase-file-uploader": "^2.4.3",
+    "react-firebaseui": "^4.1.0",
     "react-scripts": "3.4.0",
     "tachyons": "^4.10.0"
   },

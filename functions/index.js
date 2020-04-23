@@ -21,7 +21,8 @@ app.post("/addPost/:userId", async (req, res) => {
     .doc(req.params.userId)
     .collection("posts");
   await docRef.add({
-    imageUrl: req.body.imageUrl
+    imageUrl: req.body.imageUrl,
+    createdAt: Date.now(),
   });
   return res.sendStatus(200);
 });

@@ -7,31 +7,32 @@ class PostsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [],
     };
   }
 
   // when PostsList component mounts
   componentDidMount() {
     // onAuthStateChanged runs whenever user has logged in or out
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       // if a user has logged in
       if (user) {
         // point to posts collection
         let collectionRef = db
           .collection("users")
           .doc(user.uid)
-          .collection("posts");
-        collectionRef.onSnapshot(collectionSnapshot => {
+          .collection("posts")
+          .orderBy("createdAt", "desc");
+        collectionRef.onSnapshot((collectionSnapshot) => {
           // create an empty array
           const imageUrls = [];
           // add each document's imageUrl to array
-          collectionSnapshot.forEach(doc => {
+          collectionSnapshot.forEach((doc) => {
             imageUrls.push(doc.data().imageUrl);
           });
           // set imageUrls array to state
           this.setState({
-            posts: imageUrls
+            posts: imageUrls,
           });
         });
       }
