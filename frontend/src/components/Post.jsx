@@ -1,22 +1,29 @@
-import { Card, CardContent, CardMedia, Typography } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Typography,
+} from "@material-ui/core";
+import {
+  ChatBubbleOutlineOutlined,
+  FavoriteBorderOutlined,
+} from "@material-ui/icons/";
 import * as firebase from "firebase";
 import React from "react";
 
-const Post = props => {
+const Post = (props) => {
   const username = firebase.auth().currentUser.displayName;
   const { src } = props;
   return (
     <div>
-      <Card style={{ maxWidth: "500px", maxHeight: "500px", margin: 4 }}>
+      <Card style={{ maxWidth: "600px", maxHeight: "600px", margin: 20 }}>
+        <CardHeader align="left" subheader={username} />
         <CardMedia component="img" alt="some image" width="180" image={src} />
         <CardContent>
-          <Typography
-            align="left"
-            variant="body2"
-            color="textSecondary"
-            component="p"
-          >
-            {username}
+          <Typography align="left" color="textSecondary">
+            <FavoriteBorderOutlined />
+            <ChatBubbleOutlineOutlined />
           </Typography>
         </CardContent>
       </Card>

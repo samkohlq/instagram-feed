@@ -8,17 +8,17 @@ class AddPost extends Component {
     super(props);
     this.state = {
       image: null,
-      imageUrl: null
+      imageUrl: null,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     if (event.target.files[0]) {
       this.setState({
-        image: event.target.files[0]
+        image: event.target.files[0],
       });
     }
   };
@@ -26,9 +26,9 @@ class AddPost extends Component {
   handleClick = () => {
     var storageRef = firebase.storage().ref();
     const { image } = this.state;
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        user.getIdToken(true).then(idToken => {
+        user.getIdToken(true).then((idToken) => {
           storageRef
             .child(`images/${user.uid}/${image.name}`)
             .put(image)
@@ -38,18 +38,17 @@ class AddPost extends Component {
                 .getDownloadURL();
               fetch(
                 `https://us-central1-instagram-feed-1a4be.cloudfunctions.net/widgets/addPost/${user.uid}`,
-                // `http://localhost:5001/instagram-feed-1a4be/us-central1/widgets/addPost/${user.uid}`,
                 {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: idToken
+                    Authorization: idToken,
                   },
                   body: JSON.stringify({
                     userId: user.uid,
                     image: image.name,
-                    imageUrl
-                  })
+                    imageUrl,
+                  }),
                 }
               );
             });
