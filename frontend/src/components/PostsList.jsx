@@ -46,9 +46,7 @@ class PostsList extends React.Component {
           <Post key={i} src={imageUrl} />
         ))}
       </div>
-    ) : (
-      <h4 style={{ margin: "20px" }}>Upload an image to get started!</h4>
-    );
+    ) : null;
     return <div>{images}</div>;
   }
 }
