@@ -18,6 +18,7 @@ class App extends React.Component {
 
   render() {
     var uiConfig = {
+      signInFlow: "popup",
       callbacks: {
         signInSuccessWithAuthResult: (authResult) => {
           this.setState({
